@@ -1,0 +1,18 @@
+{
+  "model_sx": {
+    "gcs_model_path": "gs://mlspec-volumetry/models/tf_saved_model-ALL_crop_20200908_20200908065352-2020-09-29T12:48:21.613Z",
+    "unknown_class_threshold": 0.75,
+    "crop_coords_sx": {
+      "ymin": 0.0275,
+      "xmin": 0.003125,
+      "ymax": 0.90875,
+      "xmax": 0.49375
+    },
+    "crop_coords_dx": {
+      "ymin": 0.03625,
+      "xmin": 0.44453125,
+      "ymax": 0.95625,
+      "xmax": 0.91875
+    }
+  }
+}
