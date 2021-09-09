@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+set -e
+set -x
+
+OLD_DIR=$(pwd)
+
+ACTUAL_DIR=${0%/*}
+
+cd ${ACTUAL_DIR}/../src
+
+uvicorn --reload --host=0.0.0.0 be_volumetria.main:app
+
+cd $OLD_DIR

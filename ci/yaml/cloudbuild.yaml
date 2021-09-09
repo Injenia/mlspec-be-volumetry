@@ -1,0 +1,30 @@
+steps:
+  # Download the ML model
+  - name: 'gcr.io/cloud-builders/gcloud'
+    entrypoint: 'bash'
+    args: [ './scripts/download_model.sh' ]
+
+  # Build the container image
+  - name: 'gcr.io/cloud-builders/docker'
+    args: [ 'build', '-t', 'gcr.io/$PROJECT_ID/be_volumetry:$COMMIT_SHA', '.' ]
+
+  # Push the container image to Container Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args: [ 'push', 'gcr.io/$PROJECT_ID/be_volumetry:$COMMIT_SHA' ]
+
+  # Deploy container image to Cloud Run
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+      - 'run'
+      - 'deploy'
+      - 'cloudrun-be-volumetry'
+      - '--image'
+      - 'gcr.io/$PROJECT_ID/be_volumetry:$COMMIT_SHA'
+      - '--region'
+      - 'europe-west1'
+      - '--platform'
+      - 'managed'
+images:
+  - 'gcr.io/$PROJECT_ID/be_volumetry:$COMMIT_SHA'
+
