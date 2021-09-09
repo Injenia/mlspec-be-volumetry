@@ -65,3 +65,5 @@ src/ml_models
 # Jupyter Notebook
 .ipynb_checkpoints
 
+# Assets
+notebooks/assets
