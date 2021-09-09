@@ -29,10 +29,3 @@
       ```text
       DEBUG="False"
       ```
-
-## pytest
-
-Run all tests: ```pytest -v tests```  
-Run non-regression tests WRT POC results for /api/analysis/volumetry
-API: ```pytest -v tests/test_api/test_routes/test_volumetry.py```
-
