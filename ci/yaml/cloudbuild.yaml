@@ -2,7 +2,7 @@ steps:
   # Download the ML model
   - name: 'gcr.io/cloud-builders/gcloud'
     entrypoint: 'bash'
-    args: [ './scripts/download_model.sh' ]
+    args: [ './scripts/download_model' ]
 
   # Build the container image
   - name: 'gcr.io/cloud-builders/docker'
