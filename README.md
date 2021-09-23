@@ -1,43 +1,53 @@
-# Volumetria back-end
+# Volumetry back-end
+> Serve an images classification ML model (TensorFlow) exposing a back-end API (FastAPI)
 
-## Init
+## Back-end setup
 
-- Create & activate a virtualenv python3.7
-- Run those commands:
+### Requirements
+
+- `gsutil` command installed
+  - Tip: [offical guide](https://cloud.google.com/storage/docs/gsutil_install)
+- `~python3.7` installed with `poetry`
+  - Tip: install poetry using `$ pip install poetry==1.1.7`
+
+### Download the model
+- Download the ML model from GCS:
+  - Check the ML model info from `/src/ml_models/model_info.json`
+  - Download the model:
     ```bash
-    pip install poetry==1.1.7
-    poetry install
-    bash scripts/download_model.sh 
+    $ bash scripts/download_model
     ```
-
-## Run the back-en locally
-
-- Bash:
+### Install the dependencies
+- Run this command:
     ```bash
-    bash scripts/serve
+    $ poetry install
     ```
+### `.env` file
+- Used to set back-end parameters
+- Copy the file `src/.env-example` > `src/.env` and fill the values according to your requirements
 
-- Python:
+
+### Run the back-end locally
+- Start the back-end:
     ```bash
-    cd src && export PYTHONPATH="$PWD" && python be_volumetria/main.py
+    $ bash scripts/serve
     ```
+- Visit the API documentation at [http://localhost:8000/docs](http://localhost:8000/docs)
 
-## .env file
+### Test the docker image
+- Build the images using:
+  - `$ bash ci/01_build.sh`
+  - Note: you must have downloaded the ml before build the docker image
 
-- \src\.env
-    - Structure:
-      ```text
-      DEBUG="False"
-      ```
+## Back-end deploy
+- Push the changes to the main git branch named `master`
+  - Tip: work on a branch and then merge the changes
+- This process will trigger a _cloud build_ pipeline
+  - The pipeline will build a back-end docker image and update the associated [_cloud run_](https://console.cloud.google.com/run/detail/europe-west1/cloudrun-be-volumetry/metrics?project=mlteam-ml-specialization-2021)
+  - Tip: the pipeline steps are described on the `/ci/yaml/cloudbuild.yaml` file
 
-# Tips
 
-## Jupyter lab on VM
-- Start the cloud engine VM 
-- Run the jupyter service (`jupyter lab` command)
-- Connect in port forward the local machine to the remote VM.
-  - In the example the VM is `api-testing-vm`:
-        ```
-        gcloud compute ssh api-testing-vm --zone us-central1-a -- -NL 8888:localhost:8888
-        ```
-- Connect to `localhost:8888`
+## Back-end test
+- Run the jupyter notebook `notebooks/api_caller.ipynb` and follow the instructions
+  - Note: a GCP account with _Cloud Run Invoker_ role is required
+  - Tip: on GCP is deployed a [compute engine vm](https://console.cloud.google.com/compute/instancesDetail/zones/us-central1-a/instances/api-testing-vm?project=mlteam-ml-specialization-2021&rif_reserved) with custom service account tailored to run the notebook

@@ -17,7 +17,7 @@ config = Config(".env")
 # Logging configuration
 DEBUG: bool = config("DEBUG", cast=bool, default=False)
 LOGGING_LEVEL = logging.DEBUG if DEBUG else logging.INFO
-LOG_HOST: str = config("LOG_HOST", cast=str, default=None)  # e.g. http://localhost:8100
+LOG_HOST: str = config("LOG_HOST", cast=str, default=None)
 logger.configure(handlers=[{"sink": sys.stderr, "level": LOGGING_LEVEL}])
 
 # Back-end specific configurations

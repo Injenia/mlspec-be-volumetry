@@ -23,11 +23,8 @@ def set_log_host():
         async def endpoint_sink(msg: str):
             endpoint_level = level.lower()
             async with httpx.AsyncClient(base_url=LOG_HOST) as client:
-                body = {
-                    "message": msg,
-                    "source": MSG_SOURCE
-                }
-                await client.post(f'/api/v1/log/{endpoint_level}', json=body)
+                body = {"message": msg, "source": MSG_SOURCE}
+                await client.post(f"/api/v1/log/{endpoint_level}", json=body)
 
         return endpoint_sink
 
@@ -39,9 +36,7 @@ def set_log_host():
 
 
 def get_application() -> FastAPI:
-    application = FastAPI(title=PROJECT_NAME,
-                          debug=DEBUG,
-                          version=VERSION)
+    application = FastAPI(title=PROJECT_NAME, debug=DEBUG, version=VERSION)
 
     application.add_exception_handler(HTTPException, http_error_handler)
     application.add_exception_handler(RequestValidationError, http422_error_handler)
@@ -57,4 +52,4 @@ def get_application() -> FastAPI:
 app = get_application()
 
 if __name__ == "__main__":  # for debugging purpose
-    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
+    uvicorn.run("main:app", host="localhost", port=8000, reload=True)
